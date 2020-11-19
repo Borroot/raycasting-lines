@@ -12,5 +12,5 @@ MOVE_EAST  = ( 1,  0)
 MOVE_WEST  = (-1,  0)
 MOVE_SOUTH = ( 0,  1)
 
-TURN_EAST = -1
 TURN_WEST =  1
+TURN_EAST = -1

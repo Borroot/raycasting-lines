@@ -14,7 +14,7 @@ def div(vector, scalar):
 
 
 def atov(angle):   # angle to vector on unit circle
-    return (math.cos(math.radians(angle)), math.sin(math.radians(angle)))
+    return (math.cos(math.radians(angle)), -math.sin(math.radians(angle)))
 
 
 def vtoa(vector):  # vector to angle on unit circle

@@ -1,12 +1,13 @@
 import pygame
 
 from ray import Ray
-from vector import add, mul
+from vector import add, mul, atov
 
 
 class Player:
 
-    MOVE_AMPLIFIER = 5
+    AMPLIFIER_MOVE = 5
+    AMPLIFIER_FOV  = 3
     FOV = 40
 
 
@@ -14,17 +15,30 @@ class Player:
         self.pos = pos
         self.angle = 0
 
-        self.rays = []
+        self.rays = [0, 0]
+        self.update_fov_rays()
         for line in lines:
             self.rays.extend([Ray(pos, line.p1), Ray(pos, line.p2)])
 
 
+    def update_fov_ray(self, sign):
+        # return Ray(self.pos, add(self.pos, atov(sign*Player.FOV + self.angle)))
+        return Ray(self.pos, add(self.pos, mul(atov(sign*Player.FOV + self.angle), 100)))
+
+
+    def update_fov_rays(self):
+        self.rays[0] = self.update_fov_ray( 1)
+        self.rays[1] = self.update_fov_ray(-1)
+
+
     def update(self, move=None, turn=None):
         if move is not None:
-            self.pos = add(self.pos, mul(move, Player.MOVE_AMPLIFIER))
-            for ray in self.rays: ray.update(self.pos)
+            self.pos = add(self.pos, mul(move, Player.AMPLIFIER_MOVE))
+            self.update_fov_rays()
+            for ray in self.rays[2:]: ray.update(self.pos)
         if turn is not None:
-            self.angle += turn
+            self.angle = (self.angle + turn * Player.AMPLIFIER_FOV) % 360
+            self.update_fov_rays()
 
 
     def draw(self, surface):

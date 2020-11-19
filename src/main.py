@@ -59,6 +59,11 @@ def update_move(world):
     if pressed[pygame.K_s]:
         world.update(move=MOVE_SOUTH)
 
+    if pressed[pygame.K_j]:
+        world.update(turn=TURN_WEST)
+    if pressed[pygame.K_k]:
+        world.update(turn=TURN_EAST)
+
 
 def update_loop(thread_draw):
     global alive, world
