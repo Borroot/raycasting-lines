@@ -2,6 +2,11 @@ import pygame
 import random
 
 
+def border_lines(size):
+    return [Line((0, 0), (size[0], 0)), Line((size[0], 0), (size[0], size[1])), \
+            Line((size[0], size[1]), (0, size[1])), Line((0, size[1]), (0, 0))]
+
+
 def random_point(size):
     return random.randrange(size[0]), random.randrange(size[1])
 

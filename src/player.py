@@ -41,6 +41,19 @@ class Player:
             self.update_fov_rays()
 
 
+    def fov_rays(self):
+        west = self.rays[0].angle()
+        east = self.rays[1].angle()
+        rays = []
+        for ray in self.rays[2:]:
+            if   west > east and east < ray.angle() < west:
+                rays.append(ray)
+            elif east > west and west < ray.angle() > east:
+                rays.append(ray)
+        return rays
+
+
     def draw(self, surface):
-        for ray in self.rays: ray.draw(surface)
+        # for ray in self.rays: ray.draw(surface)
+        for ray in self.fov_rays(): ray.draw(surface)  # FIXME
         pygame.draw.circle(surface, pygame.Color('black'), self.pos, 5)

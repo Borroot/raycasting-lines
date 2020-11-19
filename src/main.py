@@ -7,7 +7,7 @@ from player import Player
 
 
 alive = True
-world = World()
+world = World(SIZE_PART)
 
 
 def draw_init():
@@ -21,6 +21,7 @@ def draw_init():
 
 
 def draw_world(world, surf_root, surf_west, surf_east):
+    surf_root.fill(pygame.Color('white'))
     surf_west.fill(pygame.Color('white'))
     surf_east.fill(pygame.Color('white'))
 
@@ -77,7 +78,7 @@ def update_loop(thread_draw):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
-                    world = World()
+                    world = World(SIZE_PART)
                 if event.key == pygame.K_q:
                     stop(thread_draw)
 
