@@ -11,7 +11,7 @@ class Ray:
 
 
     def angle(self):
-        return vtoa(self.p2, self.p1)
+        return vtoa(self.p1, self.p2)
 
 
     def update(self, pos):

@@ -1,12 +1,16 @@
 import math
 
 
-def neg(n):
-    return  1 if n < 0 else 0
+def flipy(vector):
+    return (vector[0], -vector[1])
 
 
 def add(vector1, vector2):
     return tuple(sum(x) for x in zip(vector1, vector2))
+
+
+def sub(vector1, vector2):
+    return tuple(x - y for x, y in zip(vector1, vector2))
 
 
 def mul(vector, scalar):
@@ -21,9 +25,9 @@ def atov(angle):  # angle to vector on unit circle
     return (math.cos(math.radians(angle)), -math.sin(math.radians(angle)))
 
 
-def vtoa(vector, vector_zero):  # vector to angle on unit circle
-    degrees = math.degrees(math.acos(magset(vector, 1)[0]))
-    return 180 * neg(vector_zero[1] - vector[1]) + degrees
+def vtoa(vector_zero, vector):  # vector to angle on unit circle
+    degr = math.degrees(math.acos(magset(flipy(sub(vector,vector_zero)),1)[0]))
+    return 360 - degr if vector[1] > vector_zero[1] else degr
 
 
 def magget(vector):
