@@ -70,9 +70,20 @@ def update_loop(thread_draw):
         update_move(world)
 
         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    world = World()
+                if event.key == pygame.K_q:
+                    stop(thread_draw)
+
             if event.type == pygame.QUIT:
-                alive = False
-                thread_draw.join()
+                stop(thread_draw)
+
+
+def stop(thread_draw):
+    global alive
+    alive = False
+    thread_draw.join()
 
 
 def main():
