@@ -2,8 +2,15 @@ UPS = 60
 FPS = 60
 
 SIZE_WHOLE = (1605, 800)
-SIZE_WEST  = ( 800, 800)
-SIZE_EAST  = ( 800, 800)
+SIZE_PART  = ( 800, 800)
 
 PLACE_WEST = (  0, 0)
 PLACE_EAST = (805, 0)
+
+MOVE_NORTH = ( 0, -1)
+MOVE_EAST  = ( 1,  0)
+MOVE_WEST  = (-1,  0)
+MOVE_SOUTH = ( 0,  1)
+
+TURN_EAST = -1
+TURN_WEST =  1

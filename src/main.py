@@ -10,47 +10,64 @@ alive = True
 world = World()
 
 
-def init_draw():
+def draw_init():
     pygame.init()
     pygame.display.set_caption("Wolfenstein")
 
     surf_root = pygame.display.set_mode(SIZE_WHOLE)
-    surf_west = pygame.Surface(SIZE_WEST)
-    surf_east = pygame.Surface(SIZE_EAST)
+    surf_west = pygame.Surface(SIZE_PART)
+    surf_east = pygame.Surface(SIZE_PART)
     return surf_root, surf_west, surf_east
 
 
-def loop_draw():
+def draw_world(world, surf_root, surf_west, surf_east):
+    surf_west.fill(pygame.Color('white'))
+    surf_east.fill(pygame.Color('white'))
+
+    world.draw(surf_west)
+
+    surf_root.blit(surf_west, PLACE_WEST)
+    surf_root.blit(surf_east, PLACE_EAST)
+
+    pygame.display.update()
+
+
+def draw_loop():
     global alive, world
-    surf_root, surf_west, surf_east = init_draw()
+    surf_root, surf_west, surf_east = draw_init()
 
     clock = pygame.time.Clock()
     while alive:
         clock.tick(FPS)
-
-        surf_west.fill(pygame.Color('white'))
-        surf_east.fill(pygame.Color('white'))
-
-        world.draw(surf_west)
-
-        surf_root.blit(surf_west, PLACE_WEST)
-        surf_root.blit(surf_east, PLACE_EAST)
-        pygame.display.update()
+        draw_world(world, surf_root, surf_west, surf_east)
 
     pygame.quit()
 
 
-def init_update():
+def update_init():
     pass
 
 
-def loop_update(thread_draw):
+def update_move(world):
+    pressed = pygame.key.get_pressed()
+    if pressed[pygame.K_w]:
+        world.update(move=MOVE_NORTH)
+    if pressed[pygame.K_d]:
+        world.update(move=MOVE_EAST)
+    if pressed[pygame.K_a]:
+        world.update(move=MOVE_WEST)
+    if pressed[pygame.K_s]:
+        world.update(move=MOVE_SOUTH)
+
+
+def update_loop(thread_draw):
     global alive, world
-    init_update()
+    update_init()
 
     clock = pygame.time.Clock()
     while alive:
         clock.tick(UPS)
+        update_move(world)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -59,9 +76,9 @@ def loop_update(thread_draw):
 
 
 def main():
-    thread_draw = threading.Thread(target=loop_draw)
+    thread_draw = threading.Thread(target=draw_loop)
     thread_draw.start()
-    loop_update(thread_draw)
+    update_loop(thread_draw)
 
 
 if __name__ == '__main__':
