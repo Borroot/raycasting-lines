@@ -25,7 +25,7 @@ def draw_world(world, surf_root, surf_west, surf_east):
     surf_west.fill(pygame.Color('white'))
     surf_east.fill(pygame.Color('white'))
 
-    world.draw(surf_west)
+    world.draw2d(surf_west)
 
     surf_root.blit(surf_west, PLACE_WEST)
     surf_root.blit(surf_east, PLACE_EAST)
