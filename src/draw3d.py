@@ -1,16 +1,9 @@
 import pygame
 
 
-    # Create list of rays (including the line(s!) they intersect with!).
-    #  1. Add rays (if they intersect somewhere) for fov rays.
-    #  2. For every other ray.
-    #   2a. Add ray.
-    #   2b. Add ray for closest intersection of ray and line, but further
-    #       than the original endpoint intersection with the line(s).
-
-
 def draw3d(surface, player, walls):
     draw3d_background(surface)
+    # TODO Use the rays_final() function to draw a 3d image.
 
 
 def draw3d_background(surface):

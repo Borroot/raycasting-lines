@@ -50,4 +50,5 @@ def rays_collide_endpoint(rays, walls):
 
 
 def rays_final(rays, walls):
+    # TODO Sort the list based on the angle with west fov line.
     return rays_collide_fov(rays, walls) + rays_collide_endpoint(rays, walls)
