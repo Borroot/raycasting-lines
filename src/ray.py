@@ -1,7 +1,7 @@
 import pygame
 
 from line import Line
-from vector import add, mul, vtoa
+from vector import vtoa
 
 
 class Ray(Line):
