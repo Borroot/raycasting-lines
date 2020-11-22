@@ -24,4 +24,4 @@ class Wall(Line):
 
 
     def draw2d(self, surface):
-        pygame.draw.line(surface, pygame.Color('black'), self.p1, self.p2, 3)
+        super().draw2d(surface, width=3)

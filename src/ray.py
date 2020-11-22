@@ -10,10 +10,6 @@ class Ray(Line):
         super().__init__(p1, p2)
 
 
-    def __str__(self):
-        return super().__str__()
-
-
     def angle(self):
         return vtoa(self.p1, self.p2)
 
@@ -22,5 +18,6 @@ class Ray(Line):
         self.p1 = pos
 
 
-    def draw2d(self, surface):
-        pygame.draw.line(surface, pygame.Color('black'), self.p1, self.p2, 1)
+    def draw2d(self, surface, color='black', width=1, dot=True):
+        super().draw2d(surface, color=color, width=width)
+        if dot: pygame.draw.circle(surface, pygame.Color('black'), self.p2, 4)
