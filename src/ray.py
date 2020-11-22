@@ -10,6 +10,10 @@ class Ray(Line):
         super().__init__(p1, p2)
 
 
+    def __str__(self):
+        return super().__str__()
+
+
     def angle(self):
         return vtoa(self.p1, self.p2)
 

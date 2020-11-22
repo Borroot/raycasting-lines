@@ -1,13 +1,15 @@
 from constants import *
 from player import Player
 from vector import div
+from levels import *
 from wall import border_walls, random_walls
 
 
 class World:
 
     def __init__(self, size):
-        self.walls = random_walls(size, 5) # + border_walls(size)
+        # self.walls = random_walls(size, 5) # + border_walls(size)
+        self.walls = LEVEL1
         self.player = Player(div(size, 2), self.walls)
 
 

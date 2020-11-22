@@ -1,10 +1,6 @@
 import math
 
 
-def flipy(vector):
-    return (vector[0], -vector[1])
-
-
 def add(vector1, vector2):
     return tuple(sum(x) for x in zip(vector1, vector2))
 
@@ -19,6 +15,10 @@ def mul(vector, scalar):
 
 def div(vector, scalar):
     return mul(vector, 1 / scalar)
+
+
+def flipy(vector):
+    return (vector[0], -vector[1])
 
 
 def atov(angle):  # angle to vector on unit circle
@@ -36,6 +36,7 @@ def magget(vector):
 
 def magset(vector, magnitude, curr=None):
     curr = curr if curr is not None else magget(vector)
+    if curr == 0 or magnitude == 0: return vector
     return tuple(map(lambda x: x / (curr / magnitude), vector))
 
 
