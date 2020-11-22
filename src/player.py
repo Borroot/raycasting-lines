@@ -1,5 +1,6 @@
 import pygame
 
+from line import Line
 from ray import Ray
 from vector import add, mul, atov
 
@@ -14,6 +15,8 @@ class Player:
     def __init__(self, pos, walls):
         self.pos = pos
         self.angle = 0
+
+        self.walls = walls
         self.rays = [None, None]  # [(Ray, [Wall])]
 
         self.update_fov_rays()
@@ -45,9 +48,11 @@ class Player:
 
     def update(self, move=None, turn=None):
         if move is not None:
-            self.pos = add(self.pos, mul(move, Player.AMPLIFIER_MOVE))
-            self.update_fov_rays()
-            for ray, _ in self.rays[2:]: ray.update(self.pos)
+            newpos = add(self.pos, mul(move, Player.AMPLIFIER_MOVE))
+            if not Line(self.pos, newpos).collides_segments_list(self.walls):
+                self.pos = newpos
+                self.update_fov_rays()
+                for ray, _ in self.rays[2:]:ray.update(self.pos)
         if turn is not None:
             self.angle = (self.angle + turn * Player.AMPLIFIER_FOV) % 360
             self.update_fov_rays()

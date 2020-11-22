@@ -35,9 +35,19 @@ def rays_collide_fov(rays, walls):
     return newrays
 
 
-def rays_collide_endpoint():
-    pass
+def rays_collide_endpoint(rays, walls):
+    """ Create a list of all the visible rays in the fov, plus rays which go
+    through the endpoints and collide further. """
+    visible = rays_visible(rays, walls)
+    newrays = []
+    for ray, ray_walls in visible:
+        newrays.append((ray, ray_walls))
+        leftover_walls = [wall for wall in walls if wall not in ray_walls]
+        line, point = ray.collides_closest(leftover_walls)
+        if line is not None and point is not None:
+            newrays.append((Ray(ray.p1, point), [line]))
+    return newrays
 
 
 def rays_final(rays, walls):
-    return rays_collide_fov(rays, walls) + rays_visible(rays, walls)
+    return rays_collide_fov(rays, walls) + rays_collide_endpoint(rays, walls)

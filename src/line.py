@@ -48,5 +48,12 @@ class Line:
         return intersect_segments(*self.p1, *self.p2, *line.p1, *line.p2)
 
 
+    def collides_segments_list(self, lines):
+        for line in lines:
+            if intersect_segments(*self.p1, *self.p2, *line.p1, *line.p2):
+                return True
+        return False
+
+
     def draw2d(self, surface, color='black', width=5):
         pygame.draw.line(surface, pygame.Color(color), self.p1, self.p2, width)
