@@ -23,5 +23,5 @@ class Wall(Line):
         super().__init__(p1, p2)
 
 
-    def draw2d(self, surface):
-        super().draw2d(surface, width=3)
+    def draw(self, surface):
+        super().draw(surface, width=3)

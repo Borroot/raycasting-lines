@@ -59,6 +59,6 @@ class Player:
             self.update_fov_rays()
 
 
-    def draw2d(self, surface):
-        for ray, _ in self.rays[:2]: ray.draw2d(surface, width=2, dot=False)
+    def draw(self, surface):
+        for ray, _ in self.rays[:2]: ray.draw(surface, width=2, dot=False)
         pygame.draw.circle(surface, pygame.Color('black'), self.pos, 5)

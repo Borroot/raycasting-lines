@@ -32,8 +32,8 @@ def draw_background(*surfs):
 def draw_world(state, surf_root, surf_west, surf_east):
     draw_background(surf_root, surf_west, surf_east)
 
-    state['world'].draw2d(surf_west)
-    state['world'].draw3d(surf_east)
+    state['world'].draw(surf_west)
+    state['world'].render(surf_east)
 
     surf_root.blit(surf_west, PLACE_WEST)
     surf_root.blit(surf_east, PLACE_EAST)

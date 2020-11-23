@@ -18,6 +18,6 @@ class Ray(Line):
         self.p1 = pos
 
 
-    def draw2d(self, surface, color='black', width=1, dot=True):
-        super().draw2d(surface, color=color, width=width)
+    def draw(self, surface, color='black', width=1, dot=True):
+        super().draw(surface, color=color, width=width)
         if dot: pygame.draw.circle(surface, pygame.Color('black'), self.p2, 4)

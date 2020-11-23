@@ -26,5 +26,5 @@ class Line:
         return self.__str__()
 
 
-    def draw2d(self, surface, color='black', width=5):
+    def draw(self, surface, color='black', width=5):
         pygame.draw.line(surface, pygame.Color(color), self.p1, self.p2, width)

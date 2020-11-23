@@ -19,13 +19,13 @@ class World:
         self.player.update(move=move, turn=turn)
 
 
-    def draw2d(self, surface):
-        self.player.draw2d(surface)
-        for ray, _ in rays_final(self.player.rays, self.walls):
-            ray.draw2d(surface)
+    def draw(self, surface):
+        self.player.draw(surface)
+        for ray, _, _ in rays_final(self.player.rays, self.walls):
+            ray.draw(surface)
         for wall in self.walls:
-            wall.draw2d(surface)
+            wall.draw(surface)
 
 
-    def draw3d(self, surface):
+    def render(self, surface):
         render(surface, self.player, self.walls)

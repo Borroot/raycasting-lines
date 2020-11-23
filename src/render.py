@@ -6,7 +6,7 @@ from raycast import rays_final
 def render(surface, player, walls):
     draw_background(surface)
     rays = rays_final(player.rays, walls)
-    # TODO Use the rays_final() function to draw a 3d image.
+    fov = player.FOV
 
 
 def draw_background(surface):

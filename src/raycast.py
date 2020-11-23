@@ -2,6 +2,15 @@ from intersect import *
 from ray import Ray
 
 
+def ray_fov_angle(ray, west, east):
+    """ Angle difference between the west fov ray and the given ray. """
+    if west > east:
+        return round(west - ray.angle(), 5)
+    if east > west:
+        offset = 360 - east
+        return round((west + offset) - ((ray.angle() + offset) % 360), 5)
+
+
 def ray_in_fov(ray, west, east):
     """ Determine if the given ray is in the west and east fov. """
     angle = ray.angle()
@@ -43,7 +52,7 @@ def rays_collide_endpoint(rays, walls):
     newrays = []
     for ray, ray_walls in visible:
         newrays.append((ray, ray_walls))
-        if len(ray_walls) >= 2 and intersect_sameside(ray, ray_walls):
+        if len(ray_walls) < 2 or intersect_sameside(ray, ray_walls):
             leftover_walls = [wall for wall in walls if wall not in ray_walls]
             line, point = intersect_closest(ray, leftover_walls)
             if line is not None and point is not None:
@@ -52,5 +61,9 @@ def rays_collide_endpoint(rays, walls):
 
 
 def rays_final(rays, walls):
-    # TODO Sort the list based on the angle with west fov line.
-    return rays_collide_fov(rays, walls) + rays_collide_endpoint(rays, walls)
+    """ Filter out only the rays which are necessary for rendering. """
+    final = rays_collide_fov(rays, walls) + rays_collide_endpoint(rays, walls)
+    west, east = rays[0][0].angle(), rays[1][0].angle()
+    final = [ray + (ray_fov_angle(ray[0], west, east),) for ray in final]
+    final.sort(key=lambda ray: ray[2])  # sort based on angle, west -> east
+    return final
