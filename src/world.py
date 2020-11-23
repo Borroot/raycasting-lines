@@ -2,8 +2,8 @@ from constants import *
 from player import Player
 from vector import div
 from levels import *
-from draw3d import draw3d
-from render import rays_final
+from render import render
+from raycast import rays_final
 from wall import border_walls, random_walls
 
 
@@ -28,4 +28,4 @@ class World:
 
 
     def draw3d(self, surface):
-        draw3d(surface, self.player, self.walls)
+        render(surface, self.player, self.walls)

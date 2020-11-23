@@ -1,5 +1,6 @@
 import pygame
 
+from intersect import intersect_segments
 from line import Line
 from ray import Ray
 from vector import add, mul, atov
@@ -49,7 +50,7 @@ class Player:
     def update(self, move=None, turn=None):
         if move is not None:
             newpos = add(self.pos, mul(move, Player.AMPLIFIER_MOVE))
-            if not Line(self.pos, newpos).collides_segments_list(self.walls):
+            if not intersect_segments(Line(self.pos, newpos), self.walls):
                 self.pos = newpos
                 self.update_fov_rays()
                 for ray, _ in self.rays[2:]:ray.update(self.pos)

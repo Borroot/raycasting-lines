@@ -17,6 +17,10 @@ def div(vector, scalar):
     return mul(vector, 1 / scalar)
 
 
+def dot(vector1, vector2):  # dot product
+    return sum(x * y for x, y in zip(vector1, vector2))
+
+
 def dis(vector1, vector2):  # euclidean without sqrt for perfomance
     return sum((x - y) ** 2 for x, y in zip(vector1, vector2))
 
