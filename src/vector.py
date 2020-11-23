@@ -25,6 +25,10 @@ def dis(vector1, vector2):  # euclidean without sqrt for perfomance
     return sum((x - y) ** 2 for x, y in zip(vector1, vector2))
 
 
+def distance(vector1, vector2):  # euclidean with sqrt
+    return math.sqrt(sum((x - y) ** 2 for x, y in zip(vector1, vector2)))
+
+
 def flipy(vector):
     return (vector[0], -vector[1])
 

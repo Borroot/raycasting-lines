@@ -28,4 +28,4 @@ class World:
 
 
     def render(self, surface):
-        render(surface, self.player, self.walls)
+        render(surface, self.player, rays_final(self.player.rays, self.walls))

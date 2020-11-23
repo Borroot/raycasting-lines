@@ -66,4 +66,4 @@ def rays_final(rays, walls):
     west, east = rays[0][0].angle(), rays[1][0].angle()
     final = [ray + (ray_fov_angle(ray[0], west, east),) for ray in final]
     final.sort(key=lambda ray: ray[2])  # sort based on angle, west -> east
-    return final
+    return final  # [(Ray, [Walls], angle)]
