@@ -1,6 +1,6 @@
 import math
 
-from vector import sub, dot, dis
+from vector import dist_fast
 
 
 def intersect_segment2_points(x1, y1, x2, y2, x3, y3, x4, y4):
@@ -24,27 +24,9 @@ def intersect_segments_points(x1, y1, x2, y2, x3, y3, x4, y4):
     return 0 <= t <= 1 and 0 <= u <= 1
 
 
-def intersect_sameside_points(x1, y1, x2, y2, *points):
-    """ Check if all points are on the same side of the line defined by two
-    coordinates ((x1,y1), (x2,y2)). """
-    orthogonal = (y2 - y1, -(x2 - x1))
-    start = (x1, y1)
-    sign = lambda x: (1, -1)[x < 0]
-    signs = [sign(dot(sub((p[0], p[1]), start), orthogonal)) for p in points]
-    return all(signs[0] == element for element in signs)
-
-
 def intersect_segments(line, lines):
     return any(intersect_segments_points(*line.p1, *line.p2, *l.p1, *l.p2)
            for l in lines)
-
-
-def intersect_sameside(line, lines):
-    """ Lines collide with exactly one and the same endpoint with this line,
-    see if the other endpoints are on the same side. """
-    all_points = sum([[l.p1, l.p2] for l in lines[1:]], [])
-    points = list({lines[0].p1, lines[0].p2}.symmetric_difference(all_points))
-    return intersect_sameside_points(*line.p1, *line.p2, *points)
 
 
 def intersect_closest(line, lines):
@@ -54,8 +36,8 @@ def intersect_closest(line, lines):
     closest_dist = math.inf
     for l in lines:
         point = intersect_segment2_points(*line.p1, *line.p2, *l.p1, *l.p2)
-        if point:  # there is an intersection in segment 2
-            if (newdis := dis(line.p1, point)) < closest_dist:
-                closest_dist = newdis
+        if point:  # there is an intersection
+            if (newdist := dist_fast(line.p1, point)) < closest_dist:
+                closest_dist = newdist
                 closest_line, closest_point = l, point
     return closest_line, closest_point

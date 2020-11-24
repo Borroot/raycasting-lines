@@ -1,23 +1,24 @@
 import pygame
 
 from line import Line
-from vector import vtoa
+from vector import atov, add, mul, sub
 
 
 class Ray(Line):
 
-    def __init__(self, p1, p2):
-        super().__init__(p1, p2)
+    AMPLIFIER_DRAW = 30
 
 
-    def angle(self):
-        return vtoa(self.p1, self.p2)
+    def __init__(self, pos, angle):
+        super().__init__(pos, add(pos, atov(angle)))
+        self.angle = angle
 
 
     def update(self, pos):
+        self.p2 = add(sub(self.p2, self.p1), pos)
         self.p1 = pos
 
 
-    def draw(self, surface, color='black', width=1, dot=True):
-        super().draw(surface, color=color, width=width)
-        if dot: pygame.draw.circle(surface, pygame.Color('black'), self.p2, 4)
+    def draw(self, surface, color='black', width=1):
+        towards = add(self.p1, mul(sub(self.p2, self.p1), Ray.AMPLIFIER_DRAW))
+        pygame.draw.line(surface, pygame.Color(color), self.p1, towards, width)

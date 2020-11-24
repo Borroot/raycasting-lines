@@ -3,62 +3,45 @@ import pygame
 from intersect import intersect_segments
 from line import Line
 from ray import Ray
-from vector import add, mul, atov
+from vector import add, mul
 
 
 class Player:
 
     AMPLIFIER_MOVE = 5
-    AMPLIFIER_FOV  = 3
-    FOV = 30
+    AMPLIFIER_FOV  = 5
+
+    FOV = 60
+    SCALE = 2
 
 
-    def __init__(self, pos, walls):
+    def __init__(self, pos, width):
         self.pos = pos
         self.angle = 0
+        self.width = width
 
-        self.walls = walls
-        self.rays = [None, None]  # [(Ray, [Wall])]
-
-        self.update_fov_rays()
-        self.init_rays(walls)
+        self.rays = [0] * (self.width // Player.SCALE)
+        self.create_rays()
 
 
-    def init_rays(self, walls):
-        """ Create a ray for every unique endpoint from walls and add
-        information to every ray about which wall(s) it intersects with. """
-        for wall in walls:
-            for endpoint in [wall.p1, wall.p2]:
-                ray = Ray(self.pos, endpoint)
-                if ray in (firsts := list(map(lambda x: x[0], self.rays))):
-                    index = firsts.index(ray)
-                    self.rays[index][1].append(wall)
-                else:
-                    self.rays.append((ray, [wall]))
+    def create_rays(self):
+        for index in range(len(self.rays) - 1, -1, -1):  # west to east
+            angle = (self.angle + Player.FOV * (index / len(self.rays))) % 360
+            self.rays[index] = (Ray(self.pos, angle))
 
 
-    def update_fov_ray(self, sign):
-        new = mul(atov(sign * Player.FOV + self.angle), 30)
-        return (Ray(self.pos, add(self.pos, new)), [])
-
-
-    def update_fov_rays(self):
-        self.rays[0] = self.update_fov_ray( 1)
-        self.rays[1] = self.update_fov_ray(-1)
-
-
-    def update(self, move=None, turn=None):
-        if move is not None:
+    def update(self, move=None, turn=None, walls=None):
+        if move is not None and walls is not None:
             newpos = add(self.pos, mul(move, Player.AMPLIFIER_MOVE))
-            if not intersect_segments(Line(self.pos, newpos), self.walls):
+            if not intersect_segments(Line(self.pos, newpos), walls):
                 self.pos = newpos
-                self.update_fov_rays()
-                for ray, _ in self.rays[2:]:ray.update(self.pos)
+                for ray in self.rays: ray.update(newpos)
         if turn is not None:
             self.angle = (self.angle + turn * Player.AMPLIFIER_FOV) % 360
-            self.update_fov_rays()
+            self.create_rays()
 
 
     def draw(self, surface):
-        for ray, _ in self.rays[:2]: ray.draw(surface, width=2, dot=False)
+        self.rays[ 0].draw(surface, width=2)
+        self.rays[-1].draw(surface, width=2)
         pygame.draw.circle(surface, pygame.Color('black'), self.pos, 5)
