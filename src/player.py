@@ -10,7 +10,7 @@ class Player:
 
     AMPLIFIER_MOVE = 5
     AMPLIFIER_FOV  = 3
-    FOV = 40
+    FOV = 30
 
 
     def __init__(self, pos, walls):

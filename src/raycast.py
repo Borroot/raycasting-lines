@@ -1,5 +1,6 @@
 from intersect import *
 from ray import Ray
+from vector import dis
 
 
 def ray_fov_angle(ray, west, east):
@@ -65,5 +66,5 @@ def rays_final(rays, walls):
     final = rays_collide_fov(rays, walls) + rays_collide_endpoint(rays, walls)
     west, east = rays[0][0].angle(), rays[1][0].angle()
     final = [ray + (ray_fov_angle(ray[0], west, east),) for ray in final]
-    final.sort(key=lambda ray: ray[2])  # sort based on angle, west -> east
+    final.sort(key=lambda ray: ray[2])
     return final  # [(Ray, [Walls], angle)]
