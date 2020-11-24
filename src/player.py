@@ -1,6 +1,6 @@
 import pygame
 
-from intersect import intersect_segments
+from intersect import intersect_segments, intersect_closest
 from line import Line
 from ray import Ray
 from vector import add, mul
@@ -45,3 +45,10 @@ class Player:
         self.rays[ 0].draw(surface, width=2)
         self.rays[-1].draw(surface, width=2)
         pygame.draw.circle(surface, pygame.Color('black'), self.pos, 5)
+
+
+    def draw_cast(self, surface, walls):
+        for ray in self.rays:
+            line, point = intersect_closest(ray, walls)
+            if line is not None:
+                pygame.draw.circle(surface, pygame.Color('black'), point, 3)
