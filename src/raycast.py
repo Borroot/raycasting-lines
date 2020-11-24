@@ -57,7 +57,10 @@ def rays_collide_endpoint(rays, walls):
             leftover_walls = [wall for wall in walls if wall not in ray_walls]
             line, point = intersect_closest(ray, leftover_walls)
             if line is not None and point is not None:
-                newrays.append((Ray(ray.p1, point), [line]))
+                newwalls = [line]
+                if line.p1 == point or line.p2 == point:
+                    newwalls.extend(w for w in walls if w.p1 == point or w.p2 == point)
+                newrays.append((Ray(ray.p1, point), newwalls))
     return newrays
 
 
