@@ -1,7 +1,7 @@
 import pygame
 
 from line import Line
-from vector import atov, add, mul, sub
+from vector import vtoa, atov, add, mul, sub
 
 
 class Ray(Line):
@@ -9,9 +9,12 @@ class Ray(Line):
     AMPLIFIER_DRAW = 30
 
 
-    def __init__(self, pos, angle):
-        super().__init__(pos, add(pos, atov(angle)))
-        self.angle = angle
+    def __init__(self, p1, p2):
+        super().__init__(p1, p2)
+
+
+    def angle(self):
+        return vtoa(self.p1, self.p2)
 
 
     def update(self, pos):

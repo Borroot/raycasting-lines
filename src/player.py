@@ -3,7 +3,7 @@ import pygame
 from intersect import intersect_segments, intersect_closest
 from line import Line
 from ray import Ray
-from vector import add, mul
+from vector import atov, add, mul
 
 
 class Player:
@@ -20,14 +20,23 @@ class Player:
         self.angle = 0
         self.width = width
 
-        self.rays = [0] * (self.width // Player.SCALE)
+        self.rays = [None] * (self.width // Player.SCALE)
         self.create_rays()
 
 
     def create_rays(self):
-        for index in range(len(self.rays) - 1, -1, -1):  # west to east
-            angle = (self.angle + Player.FOV * (index / len(self.rays))) % 360
-            self.rays[index] = (Ray(self.pos, angle))
+        west = add(self.pos, atov((self.angle + Player.FOV) % 360))
+        east = add(self.pos, atov(self.angle))
+
+        self.rays[ 0] = Ray(self.pos, west)
+        self.rays[-1] = Ray(self.pos, east)
+
+        stepx = (east[0] - west[0]) / len(self.rays)
+        stepy = (east[1] - west[1]) / len(self.rays)
+
+        for index in range(1, len(self.rays) - 1):
+            pos = add(west, (index * stepx, index * stepy))
+            self.rays[index] = Ray(self.pos, pos)
 
 
     def update(self, move=None, turn=None, walls=None):
@@ -50,5 +59,5 @@ class Player:
     def draw_cast(self, surface, walls):
         for ray in self.rays:
             line, point = intersect_closest(ray, walls)
-            if line is not None:
+            if line is not None and point is not None:
                 pygame.draw.circle(surface, pygame.Color('black'), point, 3)

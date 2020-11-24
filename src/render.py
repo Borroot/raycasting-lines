@@ -28,10 +28,11 @@ def draw_segment(surface, line, angle):
 
 
 def draw_walls(surface, player, walls):
+    # FIXME Not all the walls are drawn.
     for index in range(len(player.rays)):
         line, point = intersect_closest(player.rays[index], walls)
         if line is not None and point is not None:
-            angle = (Player.FOV-(player.rays[index].angle-player.angle)) % 360
+            angle = (Player.FOV-player.rays[index].angle()-player.angle) % 360
             draw_segment(surface, Line(player.pos, point), angle)
 
 
