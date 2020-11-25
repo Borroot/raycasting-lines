@@ -19,20 +19,19 @@ def draw_segment(surface, line, angle):
 
     degrees = math.cos(math.radians(abs(Player.FOV / 2 - angle)))
     dist = dist_slow(line.p1, line.p2) * degrees
-    height = maps(dist, 0, surf_h, surf_h / 2, 0)
+    height = 50 * surf_h / dist
 
     color = (int(maps(dist ** 2, 0, surf_h ** 2, 255, 0)),) * 3
-    rect = pygame.Rect(x, surf_h / 2 - height, Player.SCALE + 1, int(2*height))
+    rect = pygame.Rect(x, surf_h/2 - height, Player.SCALE + 1, int(2 * height))
 
     pygame.draw.rect(surface, pygame.Color(*color), rect)
 
 
 def draw_walls(surface, player, walls):
-    # FIXME Not all the walls are drawn.
     for index in range(len(player.rays)):
         line, point = intersect_closest(player.rays[index], walls)
         if line is not None and point is not None:
-            angle = (Player.FOV-player.rays[index].angle()-player.angle) % 360
+            angle = (Player.FOV-player.rays[index].angle()+player.angle) % 360
             draw_segment(surface, Line(player.pos, point), angle)
 
 
