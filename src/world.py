@@ -8,7 +8,7 @@ from render import render
 class World:
 
     def __init__(self, size):
-        self.walls = LEVEL1
+        self.walls = LEVEL1 + LEVEL2
         self.player = Player(mul(size, 0.4), size[0])
 
 

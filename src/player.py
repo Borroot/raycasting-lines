@@ -3,16 +3,17 @@ import pygame
 from intersect import intersect_segments, intersect_closest
 from line import Line
 from ray import Ray
-from vector import add, mul
+from constants import *
+from vector import add, mul, atov
 
 
 class Player:
 
     AMPLIFIER_MOVE = 5
-    AMPLIFIER_FOV  = 5
+    AMPLIFIER_FOV  = 4
 
     FOV = 60
-    SCALE = 2
+    SCALE = 5
 
 
     def __init__(self, pos, width):
@@ -30,12 +31,23 @@ class Player:
             self.rays[index] = (Ray(self.pos, angle))
 
 
+    def move(self, move, walls):
+        angle_offset = 0
+        if move == MOVE_EAST or move == MOVE_WEST:
+            angle_offset = 90 if move == MOVE_WEST else -90
+        elif move == MOVE_SOUTH:
+            angle_offset = -180
+
+        move_vector = atov(self.angle + 30 + angle_offset)
+        newpos = add(self.pos, mul(move_vector, Player.AMPLIFIER_MOVE))
+        if not intersect_segments(Line(self.pos, newpos), walls):
+            self.pos = newpos
+            for ray in self.rays: ray.update(newpos)
+
+
     def update(self, move=None, turn=None, walls=None):
         if move is not None and walls is not None:
-            newpos = add(self.pos, mul(move, Player.AMPLIFIER_MOVE))
-            if not intersect_segments(Line(self.pos, newpos), walls):
-                self.pos = newpos
-                for ray in self.rays: ray.update(newpos)
+            self.move(move, walls)
         if turn is not None:
             self.angle = (self.angle + turn * Player.AMPLIFIER_FOV) % 360
             self.create_rays()

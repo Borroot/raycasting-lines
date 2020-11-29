@@ -19,7 +19,7 @@ def draw_segment(surface, line, angle):
 
     degrees = math.cos(math.radians(abs(Player.FOV / 2 - angle)))
     dist = dist_slow(line.p1, line.p2) * degrees
-    height = 50 * surf_h / dist
+    height = 30 * surf_h / dist
 
     color = (int(maps(dist ** 2, 0, surf_h ** 2, 255, 0)),) * 3
     rect = pygame.Rect(x, surf_h/2 - height, Player.SCALE + 1, int(2 * height))
