@@ -1,7 +1,7 @@
 from constants import *
 from player import Player
 from vector import mul
-from levels import *
+from level import *
 from render import render
 
 

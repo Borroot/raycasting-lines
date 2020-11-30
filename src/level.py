@@ -1,4 +1,14 @@
 from wall import Wall
+from maze import Maze
+
+
+def generate(width, height):
+    maze = Maze(width, height)
+
+    # TODO Generate a maze using the backtrack algorithm.
+
+    return maze
+
 
 
 LEVEL1 = [
@@ -13,6 +23,7 @@ LEVEL1 = [
     Wall((200, 600), (350, 600)),
     Wall((450, 600), (600, 600)),
     Wall((350, 600), (200, 500))]
+
 
 LEVEL2 = [
     Wall((200, 100), (300, 100)),
