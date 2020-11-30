@@ -24,6 +24,12 @@ def draw_fps(clock, surface):
     draw_text(surface, font, 'coral', fps, pos)
 
 
+def draw_ups(ups, surface):
+    font = pygame.font.SysFont('Verdana', 15, bold=True)
+    pos = (surface.get_size()[0] - 40, 2)
+    draw_text(surface, font, 'coral', ups, pos)
+
+
 def draw_background(*surfs):
     for surf in surfs:
         surf.fill(pygame.Color('white'))
@@ -46,6 +52,7 @@ def draw_loop(state):
         clock.tick(FPS)
         draw_world(state, surf_root, surf_west, surf_east)
         draw_fps(clock, surf_root)
+        draw_ups(state['ups'], surf_root)
         pygame.display.update()
 
     pygame.quit()

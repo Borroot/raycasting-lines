@@ -1,14 +1,14 @@
 from constants import *
 from player import Player
 from vector import mul
-from level import *
+from level import generate
 from render import render
 
 
 class World:
 
     def __init__(self, size):
-        self.walls = LEVEL1 + LEVEL2
+        self.walls = generate(10, 10).walls(*size)
         self.player = Player(mul(size, 0.4), size[0])
 
 

@@ -36,6 +36,7 @@ def update_state(state):
 def tick_loop(state):
     clock = pygame.time.Clock()
     while state['alive']:
+        state['ups'] = str(round(clock.get_fps()))
         clock.tick(UPS)
         update_move(state)
         update_state(state)

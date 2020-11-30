@@ -9,6 +9,10 @@ def sub(vector1, vector2):
     return tuple(x - y for x, y in zip(vector1, vector2))
 
 
+def prod(vector1, vector2):
+    return tuple(x * y for x, y in zip(vector1, vector2))
+
+
 def mul(vector, scalar):
     return tuple(x * scalar for x in vector)
 
