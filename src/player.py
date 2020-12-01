@@ -10,7 +10,7 @@ from vector import add, mul, atov
 class Player:
 
     AMPLIFIER_MOVE = 2
-    AMPLIFIER_FOV  = 4
+    AMPLIFIER_FOV  = 3
 
     FOV = 60
     SCALE = 5
